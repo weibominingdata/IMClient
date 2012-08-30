@@ -14,6 +14,11 @@ import javax.swing.JTextArea;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Color;
 import javax.swing.BoxLayout;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.border.TitledBorder;
+import javax.swing.UIManager;
+import javax.swing.border.EtchedBorder;
+import javax.swing.JScrollPane;
 
 
 public class ClientView extends JFrame {
@@ -30,8 +35,13 @@ public class ClientView extends JFrame {
 	private JLabel lblTopic;
 	private JTextField textTopic;
 	private JPanel panelCollaborative;
-	private JTextArea textStatus;
-	private JTextArea textHistory;
+	private JTextArea textCollaborativeStatus;
+	private JPanel panelCollaborativeStatus;
+	private JTextArea textChattingHistory;
+	private JPanel panelChattingHistory;
+	private JScrollPane scrollPane;
+	private JScrollPane scrollPane_1;
+	
 
 	/**
 	 * Launch the application.
@@ -97,14 +107,43 @@ public class ClientView extends JFrame {
 		
 		panelCollaborative = new JPanel();
 		contentPane.add(panelCollaborative, BorderLayout.CENTER);
-		panelCollaborative.setLayout(new BoxLayout(panelCollaborative, BoxLayout.LINE_AXIS));
+		panelCollaborative.setLayout(null);
 		
-		textStatus = new JTextArea();
-		panelCollaborative.add(textStatus);
-		textStatus.setColumns(10);
+		panelCollaborativeStatus = new JPanel();
+		panelCollaborativeStatus.setBackground(Color.WHITE);
+		panelCollaborativeStatus.setBorder(new TitledBorder(null, "User Status", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
+		panelCollaborativeStatus.setBounds(0, 0, 180, 410);
+		panelCollaborative.add(panelCollaborativeStatus);
+		panelCollaborativeStatus.setLayout(null);
 		
-		textHistory = new JTextArea();
-		panelCollaborative.add(textHistory);
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(5, 20, 170, 380);
+		panelCollaborativeStatus.add(scrollPane_1);
+		
+		textCollaborativeStatus = new JTextArea();
+		textCollaborativeStatus.setEditable(false);
+		scrollPane_1.setViewportView(textCollaborativeStatus);
+		
+		panelChattingHistory = new JPanel();
+		panelChattingHistory.setAutoscrolls(true);
+		panelChattingHistory.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Chatting History", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelChattingHistory.setBounds(185, 0, 255, 410);
+		panelCollaborative.add(panelChattingHistory);
+		panelChattingHistory.setLayout(null);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(5, 20, 240, 380);
+		panelChattingHistory.add(scrollPane);
+		
+		textChattingHistory = new JTextArea();
+		textChattingHistory.setEditable(false);
+		scrollPane.setViewportView(textChattingHistory);
+		textChattingHistory.setLineWrap(true);
+		
+		
+		
 	}
-
 }
+	
+
+	
