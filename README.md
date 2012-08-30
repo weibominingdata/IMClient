@@ -1,7 +1,7 @@
-IMCollaborative
+IMClient
 ===============
 
-Collaborative IM
+The client of a collaborative IM tool.
 
 COMP790-063: Distributed Collaborative System Course Assignment 1. I am going to design and implement a collaborative IM tool.
 Key features include 
