@@ -19,6 +19,13 @@ import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JScrollPane;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Date;
 
 
 public class ClientView extends JFrame {
@@ -27,7 +34,6 @@ public class ClientView extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
 	private JTextField textMsg;
 	private JPanel panelStatus;
 	private JComboBox comboBoxStatus;
@@ -41,6 +47,9 @@ public class ClientView extends JFrame {
 	private JPanel panelChattingHistory;
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
+	
+	private EditingStatusTracker eTracker = new EditingStatusTracker();
+	private JPanel contentPane;
 	
 
 	/**
@@ -79,6 +88,39 @@ public class ClientView extends JFrame {
 		panelMsg.setLayout(new BoxLayout(panelMsg, BoxLayout.X_AXIS));
 		
 		textMsg = new JTextField();
+		textMsg.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
+					
+				}
+				eTracker.setLastKeyTypedTime(new Date());
+				updateUsrStatus();
+				
+			}
+		});
+		textMsg.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				eTracker.setLastKeyTypedTime(new Date());
+				updateUsrStatus();
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				updateUsrStatus();
+
+			}
+		});
+		textMsg.addInputMethodListener(new InputMethodListener() {
+			public void inputMethodTextChanged(InputMethodEvent event) {
+			}
+
+			@Override
+			public void caretPositionChanged(InputMethodEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		panelMsg.add(textMsg);
 		textMsg.setColumns(10);
 		
@@ -140,9 +182,31 @@ public class ClientView extends JFrame {
 		scrollPane.setViewportView(textChattingHistory);
 		textChattingHistory.setLineWrap(true);
 		
-		
+		initilize();
 		
 	}
+
+	public EditingStatusTracker geteTracker() {
+		return eTracker;
+	}
+
+	
+	private void initilize() {
+		textCollaborativeStatus.setText("Alice: " + eTracker.getEditingStatus(new Date(), textMsg.getText().length()) + "\n");
+	}
+	
+	protected void updateUsrStatus() {
+		checkSetEditingStatus();
+	}
+	
+	protected void updateChattingHistory() {
+		
+	}
+	
+	protected void checkSetEditingStatus(){
+        textCollaborativeStatus.setText("Alice: " + eTracker.getEditingStatus(new Date(), textMsg.getText().length()) + "\n");
+	}
+	
 }
 	
 
