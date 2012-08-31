@@ -2,8 +2,9 @@ package comgithubweibominingdataIMClient;
 
 public class Usr {
 	private String usrName;
-	private String usrStatus;
-	private String usrEditingStatus;
+	private UsrStatus usrStatus;
+	private UsrEditingStatus usrEditingStatus;
+	private int UsrID;
 
 	public Usr() {
 		// TODO Auto-generated constructor stub
@@ -12,8 +13,8 @@ public class Usr {
 	
 	public Usr(String name) {
 		setUsrName(name);
-		setUsrStatus("Available");
-		setUsrEditingStatus("NoneEntered");
+		setUsrStatus(UsrStatus.Available);
+		setUsrEditingStatus(UsrEditingStatus.NotEntered);
 	}
 
 	/**
@@ -32,33 +33,75 @@ public class Usr {
 		this.usrName = usrName;
 	}
 
-	public String getUsrStatus() {
+	public UsrStatus getUsrStatus() {
 		return usrStatus;
 	}
 
-	public void setUsrStatus(String usrStatus) {
-		if (usrStatus.equalsIgnoreCase("Available")  ||
-				usrStatus.equalsIgnoreCase("Idle") ||
-				usrStatus.equalsIgnoreCase("Busy")) {
+	public void setUsrStatus(UsrStatus usrStatus) {
 			this.usrStatus = usrStatus;
-		}
-		else {
-			this.usrStatus = "Available";
-		}
 	}
 
-	public String getUsrEditingStatus() {
+	public UsrEditingStatus getUsrEditingStatus() {
 		return usrEditingStatus;
 	}
 
-	public void setUsrEditingStatus(String usrEditingStatus) {
-		if (usrEditingStatus.equalsIgnoreCase("NoneEntered")  ||
-				usrEditingStatus.equalsIgnoreCase("ActiveTyping") ||
-				usrEditingStatus.equalsIgnoreCase("NotActiveTyping")) {
+	public void setUsrEditingStatus(UsrEditingStatus usrEditingStatus) {
 			this.usrEditingStatus = usrEditingStatus;
+	}
+
+	public int getUsrID() {
+		return UsrID;
+	}
+
+	public void setUsrID(int usrID) {
+		UsrID = usrID;
+	}
+	
+	protected void setUsrStatusString(String s){
+		if (s.equalsIgnoreCase("Available")){
+			this.usrStatus=UsrStatus.Available;
+		} else if (s.equalsIgnoreCase("Busy")){
+			this.usrStatus=UsrStatus.Busy;
+		} else if (s.equalsIgnoreCase("Idle")) {
+			this.usrStatus=UsrStatus.Idle;
+		} else {
+			this.usrStatus=UsrStatus.Available;
 		}
-		else {
-			this.usrEditingStatus = "NoneEntered";
+	}
+	
+	protected void setUsrEditingStatusString(String s){
+		if (s.equalsIgnoreCase("NotEntered")){
+			this.usrEditingStatus=UsrEditingStatus.NotEntered;
+		} else if (s.equalsIgnoreCase("ActivelyEditing")){
+			this.usrEditingStatus=UsrEditingStatus.ActivelyEditing;
+		} else if (s.equalsIgnoreCase("NotActivelyEditing")) {
+			this.usrEditingStatus=UsrEditingStatus.NotActivelyEditing;
+		} else {
+			this.usrEditingStatus=UsrEditingStatus.NotEntered;
+		}
+	}
+	
+	protected static String getUsrStatusString(UsrStatus s){
+		if (s==UsrStatus.Available){
+			return "Available";
+		} else if (s==UsrStatus.Busy){
+			return "Busy";
+		} else if (s==UsrStatus.Idle) {
+			return "Idle";
+		} else {
+			return "Available";
+		}
+	}
+
+	protected static String getUsrEditStatusString(UsrEditingStatus s){
+		if (s==UsrEditingStatus.NotEntered){
+			return "NotEntered";
+		} else if (s==UsrEditingStatus.ActivelyEditing){
+			return "ActivelyEditing";
+		} else if (s==UsrEditingStatus.NotActivelyEditing) {
+			return "NotActivelyEditing";
+		} else {
+			return "NotEntered";
 		}
 	}
 

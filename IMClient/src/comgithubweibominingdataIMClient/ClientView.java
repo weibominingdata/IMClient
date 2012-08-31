@@ -26,6 +26,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Date;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class ClientView extends JFrame {
@@ -90,27 +94,26 @@ public class ClientView extends JFrame {
 		panelMsg.setLayout(new BoxLayout(panelMsg, BoxLayout.X_AXIS));
 		
 		textMsg = new JTextField();
+		textMsg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				control.newMsgHandler();
+			}
+		});
 		textMsg.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
-					
-				}
-				control.eTracker.setLastKeyTypedTime(new Date());
-				control.updateUsrStatus();
+				control.editingStatusChangeHandler(2);
 				
 			}
 		});
 		textMsg.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
-				control.eTracker.setLastKeyTypedTime(new Date());
-				control.updateUsrStatus();
+				control.editingStatusChangeHandler(0);
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
-				control.updateUsrStatus();
-
+				control.editingStatusChangeHandler(1);
 			}
 		});
 		textMsg.addInputMethodListener(new InputMethodListener() {
@@ -127,6 +130,12 @@ public class ClientView extends JFrame {
 		textMsg.setColumns(10);
 		
 		JButton btnSndMsg = new JButton("Send Message");
+		btnSndMsg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				control.newMsgHandler();
+			}
+		});
 		panelMsg.add(btnSndMsg);
 		
 		panelStatus = new JPanel();
@@ -138,6 +147,11 @@ public class ClientView extends JFrame {
 		panelStatus.add(lblUsrNam);
 		
 		comboBoxStatus = new JComboBox();
+		comboBoxStatus.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				control.usrStatusChangeHandler();
+			}
+		});
 		comboBoxStatus.setModel(new DefaultComboBoxModel(new String[] {"Available", "Busy", "Idle"}));
 		panelStatus.add(comboBoxStatus);
 		
@@ -187,7 +201,6 @@ public class ClientView extends JFrame {
 
 	
 	private void initilize() {
-		textCollaborativeStatus.setText("Alice: " + control.eTracker.getEditingStatus(new Date(), textMsg.getText().length()) + "\n");
 	}
 	
 	

@@ -24,6 +24,7 @@ public class Client {
 			
 			view.setVisible(true);
 			editingCheckerThread.start();
+			model.initial();
 		}
 		catch (Exception e){
 			e.printStackTrace();

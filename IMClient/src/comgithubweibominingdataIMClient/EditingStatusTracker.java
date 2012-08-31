@@ -17,16 +17,16 @@ public class EditingStatusTracker {
 
 	}
 	
-	public String getEditingStatus(Date ctime, int txtSize) {
+	public UsrEditingStatus getEditingStatus(Date ctime, int txtSize) {
 		if (txtSize==0) {
-			return "NotEntered";
+			return UsrEditingStatus.NotEntered;
 		}
 		else{
 			if (Math.abs(ctime.getTime()-lastKeyTypedTime.getTime())/1000 < 5) {
-				return "ActivelyEditing";
+				return UsrEditingStatus.ActivelyEditing;
 			}
 			else {
-				return "NotActivelyEditing";
+				return UsrEditingStatus.NotActivelyEditing;
 			}
 		}
 	}

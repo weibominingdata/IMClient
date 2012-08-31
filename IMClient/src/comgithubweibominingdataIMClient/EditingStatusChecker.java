@@ -20,7 +20,7 @@ public class EditingStatusChecker implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			view.control.updateUsrStatus();
+			view.model.updateEditingStatus();
 		}
 		
 
