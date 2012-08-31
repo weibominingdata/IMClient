@@ -1,14 +1,28 @@
 package comgithubweibominingdataIMClient;
 
 public class Client {
-	private ClientView frame = new ClientView();
-	private EditingStatusChecker editingChecker = new EditingStatusChecker(frame);
-	private Thread editingCheckerThread = new Thread(editingChecker);
+	private ClientModel model;
+	private ClientControl control;
+	private ClientView view;
+	private EditingStatusChecker editingChecker;
+	private Thread editingCheckerThread;
 
 	public Client() {
 		// TODO Auto-generated constructor stub
 		try {
-			frame.setVisible(true);
+			model = new ClientModel();
+			control = new ClientControl();
+			model.control = control;
+			control.model = model;
+			view = new ClientView();
+			view.model = model;
+			view.control = control;
+			model.view = view;
+			control.view = view;
+			editingChecker = new EditingStatusChecker(view);
+			editingCheckerThread = new Thread(editingChecker);
+			
+			view.setVisible(true);
 			editingCheckerThread.start();
 		}
 		catch (Exception e){

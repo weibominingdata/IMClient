@@ -15,12 +15,12 @@ public class EditingStatusChecker implements Runnable {
 		// TODO Auto-generated method stub
 		while(true){
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(300);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			view.updateUsrStatus();
+			view.control.updateUsrStatus();
 		}
 		
 

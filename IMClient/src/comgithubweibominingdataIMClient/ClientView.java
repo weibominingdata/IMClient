@@ -34,22 +34,24 @@ public class ClientView extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField textMsg;
-	private JPanel panelStatus;
-	private JComboBox comboBoxStatus;
-	private JLabel lblUsrNam;
-	private JLabel lblTopic;
-	private JTextField textTopic;
-	private JPanel panelCollaborative;
-	private JTextArea textCollaborativeStatus;
-	private JPanel panelCollaborativeStatus;
-	private JTextArea textChattingHistory;
-	private JPanel panelChattingHistory;
-	private JScrollPane scrollPane;
-	private JScrollPane scrollPane_1;
+	protected JTextField textMsg;
+	protected JPanel panelStatus;
+	protected JComboBox comboBoxStatus;
+	protected JLabel lblUsrNam;
+	protected JLabel lblTopic;
+	protected JTextField textTopic;
+	protected JPanel panelCollaborative;
+	protected JTextArea textCollaborativeStatus;
+	protected JPanel panelCollaborativeStatus;
+	protected JTextArea textChattingHistory;
+	protected JPanel panelChattingHistory;
+	protected JScrollPane scrollPane;
+	protected JScrollPane scrollPane_1;
 	
-	private EditingStatusTracker eTracker = new EditingStatusTracker();
-	private JPanel contentPane;
+	protected JPanel contentPane;
+	
+	protected ClientModel model;
+	protected ClientControl control;
 	
 
 	/**
@@ -94,20 +96,20 @@ public class ClientView extends JFrame {
 				if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
 					
 				}
-				eTracker.setLastKeyTypedTime(new Date());
-				updateUsrStatus();
+				control.eTracker.setLastKeyTypedTime(new Date());
+				control.updateUsrStatus();
 				
 			}
 		});
 		textMsg.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
-				eTracker.setLastKeyTypedTime(new Date());
-				updateUsrStatus();
+				control.eTracker.setLastKeyTypedTime(new Date());
+				control.updateUsrStatus();
 			}
 			@Override
 			public void focusLost(FocusEvent e) {
-				updateUsrStatus();
+				control.updateUsrStatus();
 
 			}
 		});
@@ -181,31 +183,13 @@ public class ClientView extends JFrame {
 		textChattingHistory.setEditable(false);
 		scrollPane.setViewportView(textChattingHistory);
 		textChattingHistory.setLineWrap(true);
-		
-		initilize();
-		
-	}
-
-	public EditingStatusTracker geteTracker() {
-		return eTracker;
 	}
 
 	
 	private void initilize() {
-		textCollaborativeStatus.setText("Alice: " + eTracker.getEditingStatus(new Date(), textMsg.getText().length()) + "\n");
+		textCollaborativeStatus.setText("Alice: " + control.eTracker.getEditingStatus(new Date(), textMsg.getText().length()) + "\n");
 	}
 	
-	protected void updateUsrStatus() {
-		checkSetEditingStatus();
-	}
-	
-	protected void updateChattingHistory() {
-		
-	}
-	
-	protected void checkSetEditingStatus(){
-        textCollaborativeStatus.setText("Alice: " + eTracker.getEditingStatus(new Date(), textMsg.getText().length()) + "\n");
-	}
 	
 }
 	
