@@ -1,6 +1,12 @@
 package comgithubweibominingdataIMClient;
 
-public class Usr {
+import java.io.Serializable;
+
+public class Usr implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9219021033883245202L;
 	private String usrName;
 	private UsrStatus usrStatus;
 	private UsrEditingStatus usrEditingStatus;
@@ -8,7 +14,8 @@ public class Usr {
 
 	public Usr() {
 		// TODO Auto-generated constructor stub
-		
+		setUsrStatus(UsrStatus.Available);
+		setUsrEditingStatus(UsrEditingStatus.NotEntered);		
 	}
 	
 	public Usr(String name) {
@@ -103,6 +110,10 @@ public class Usr {
 		} else {
 			return "NotEntered";
 		}
+	}
+	
+	public String toString() {
+		return "("+ Usr.getUsrStatusString(this.getUsrStatus()).charAt(0)+ ")"+ this.getUsrName() + ":"+ Usr.getUsrEditStatusString(this.getUsrEditingStatus()) + "\n";
 	}
 
 }

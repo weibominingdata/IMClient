@@ -37,12 +37,12 @@ public class ClientModel {
 	protected void updateEditingStatus(){
 		m.currentUsr.setUsrEditingStatus(eTracker.getEditingStatus(new Date(), view.textMsg.getText().length()));
 		String list = "";
-        list += "("+ Usr.getUsrStatusString(m.currentUsr.getUsrStatus()).charAt(0)+ ")"+ m.currentUsr.getUsrName() + ":"+ m.currentUsr.getUsrEditingStatus() + "\n";        
+        list += m.currentUsr;//"("+ Usr.getUsrStatusString(m.currentUsr.getUsrStatus()).charAt(0)+ ")"+ m.currentUsr.getUsrName() + ":"+ m.currentUsr.getUsrEditingStatus() + "\n";        
         Enumeration<Usr> e = m.usrList.elements();
         while(e.hasMoreElements()){
         	Usr temp = (Usr)e.nextElement();
         	if (temp.getUsrID() != m.currentUsr.getUsrID()) {
-        		list += "("+ Usr.getUsrStatusString(temp.getUsrStatus()).charAt(0)+ ")" + temp.getUsrName() + ":" + temp.getUsrEditingStatus() + "\n";
+        		list += temp;//"("+ Usr.getUsrStatusString(temp.getUsrStatus()).charAt(0)+ ")" + temp.getUsrName() + ":" + temp.getUsrEditingStatus() + "\n";
         	}
         }
         this.view.textCollaborativeStatus.setText(list);

@@ -14,9 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.Color;
 import javax.swing.BoxLayout;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.border.TitledBorder;
-import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JScrollPane;
 import java.awt.event.InputMethodListener;
@@ -25,7 +23,6 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Date;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
@@ -197,10 +194,6 @@ public class ClientView extends JFrame {
 		textChattingHistory.setEditable(false);
 		scrollPane.setViewportView(textChattingHistory);
 		textChattingHistory.setLineWrap(true);
-	}
-
-	
-	private void initilize() {
 	}
 	
 	

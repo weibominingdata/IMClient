@@ -1,11 +1,16 @@
 package comgithubweibominingdataIMClient;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class UsersManager {
+public class UsersManager implements Serializable{
 	
-	protected Usr currentUsr = new Usr();
-	protected Vector<Usr> usrList = new Vector<Usr>();
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7705845415148073581L;
+	public Usr currentUsr = new Usr();
+	public Vector<Usr> usrList = new Vector<Usr>();
 
 	public UsersManager() {
 		// TODO Auto-generated constructor stub

@@ -38,7 +38,7 @@ public class Client {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try{
-			Client c = new Client(); 
+			new Client(); 
 		}
 		catch(Exception e) {
 			e.printStackTrace();
