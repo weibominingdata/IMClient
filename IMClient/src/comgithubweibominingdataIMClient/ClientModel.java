@@ -1,17 +1,26 @@
 package comgithubweibominingdataIMClient;
 
+import java.rmi.RemoteException;
 import java.util.Date;
 import java.util.Enumeration;
+
+import comgithubweibominingdataIMSever.SeverRMI;
 
 public class ClientModel {
 	
 	protected ClientView view;
 	protected ClientControl control;
+	protected ClientModelRMI rmiModel;
 	
 	protected EditingStatusTracker eTracker = new EditingStatusTracker();
     protected ChattingHistory h = new ChattingHistory();
     protected UsersManager m = new UsersManager();
     protected String topic = new String();
+    
+    protected SeverRMI rmiStub;
+    
+    protected boolean topicChanges = false;
+    protected boolean capturingTopicInput = false;
 
 
 	public ClientModel() {
@@ -26,16 +35,53 @@ public class ClientModel {
 		// TODO Auto-generated method stub
 
 	}
-	
-	protected void initial() {
-		updateEditingStatus();
-		updateChattingHistory();
-		updateTopic();
-		updateUsr();
+	protected boolean registerUsr() {
+		Usr u = rmiModel.RegisterUsrAtSever();
+		if (u.getUsrID() < 0){
+			return false;
+		}
+		else {
+			m.currentUsr = u;
+		    return true;
+		}
+		
 	}
 	
-	protected void updateEditingStatus(){
-		m.currentUsr.setUsrEditingStatus(eTracker.getEditingStatus(new Date(), view.textMsg.getText().length()));
+	protected void updateView() {
+		refreshViewUsr();
+		refreshViewUsrsList();
+		refreshViewChattingHistory();
+		refreshViewTopic();
+	}
+	
+	protected void updateSeverInfo() {
+		rmiModel.UpdateInfoFromSever();
+	}
+	
+	protected void setCurrentEditingStatus() {
+		if (m.currentUsr.setUsrEditingStatus(eTracker.getEditingStatus(new Date(), view.textMsg.getText().length()))) {
+			rmiModel.UpdateUsrEditingStatusToSever(m.currentUsr);
+		}
+	}
+	
+	protected void updateTopic() {
+		System.out.println("updateTopic");
+		System.out.println("Come Here" + "(" + this.view.textTopic.getText() + ")");
+		this.topic = this.view.textTopic.getText();
+		rmiModel.UpdateTopicToSever(topic);
+	}
+	
+	protected void updateUsrStatus(){
+		m.currentUsr.setUsrStatusString((String)this.view.comboBoxStatus.getSelectedItem());
+		rmiModel.UpdateUsrStatusToSever(m.currentUsr);
+	}
+	
+	protected void addNewMsg() {
+		rmiModel.SendMsgToSever(this.view.textMsg.getText());
+		refreshViewMsg();
+	}	
+	
+	protected void refreshViewUsrsList(){	
 		String list = "";
         list += m.currentUsr;//"("+ Usr.getUsrStatusString(m.currentUsr.getUsrStatus()).charAt(0)+ ")"+ m.currentUsr.getUsrName() + ":"+ m.currentUsr.getUsrEditingStatus() + "\n";        
         Enumeration<Usr> e = m.usrList.elements();
@@ -48,7 +94,12 @@ public class ClientModel {
         this.view.textCollaborativeStatus.setText(list);
 	}
 	
-	protected void updateChattingHistory() {
+	protected void refreshViewMsg() {
+		// change the current text message as blank
+		this.view.textMsg.setText("");
+	}
+	
+	protected void refreshViewChattingHistory() {
 		String list = "";
 		Enumeration<String> e = h.chattingHistory.elements();
 		while(e.hasMoreElements()) {
@@ -57,22 +108,23 @@ public class ClientModel {
 		
 		this.view.textChattingHistory.setText(list);
 		
-		// change the current text message as blank
-		this.view.textMsg.setText("");
-		
-		
 	}
 	
-	protected void updateTopic() {
-		this.view.textTopic.setText(topic);
+	protected void refreshViewTopic() {
+		if (topicChanges && !capturingTopicInput){
+			this.view.textTopic.setText(topic);
+		}
+		topicChanges = false;
 	}
 	
-	protected void updateUsr() {
+	protected void refreshViewUsr() {
 		// including usr name, and usr status
-		this.view.lblUsrNam.setText(m.currentUsr.getUsrName());
-		m.currentUsr.setUsrStatusString((String)this.view.comboBoxStatus.getSelectedItem());
+		this.view.lblUsrNam.setText(m.currentUsr.getUsrName());		
 	}
 	
+	protected void usrQuit() {
+		rmiModel.UserLeaves(m.currentUsr);
+	}
 	
 
 }

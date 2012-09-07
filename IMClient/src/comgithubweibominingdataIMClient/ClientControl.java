@@ -22,13 +22,12 @@ public class ClientControl {
 	}
 	
 	protected void usrStatusChangeHandler() {
-		this.model.updateUsr();
+		this.model.updateUsrStatus();
 		
 	}
 	
 	protected void newMsgHandler() {
-		this.model.h.chattingHistory.add(this.view.textMsg.getText());
-		this.model.updateChattingHistory();
+		this.model.addNewMsg();
 		
 	}
 	
@@ -45,13 +44,19 @@ public class ClientControl {
 		else {
 			
 		}	
-		this.model.updateEditingStatus();
+		this.model.setCurrentEditingStatus();
 		
 	}
 	
 	protected void topicModifyingHandler() {
-		this.model.topic = this.view.textTopic.getText();
+		System.out.println("topicModifyingHandler");
+		this.model.capturingTopicInput = true;
 		this.model.updateTopic();
+		this.model.capturingTopicInput = false;
+	}
+	
+	protected void closingEventHandler() {
+		this.model.usrQuit();
 	}
 	
 	

@@ -14,7 +14,6 @@ public class UsersManager implements Serializable{
 
 	public UsersManager() {
 		// TODO Auto-generated constructor stub
-		this.InitUsrs();
 	}
 
 	/**
@@ -25,11 +24,11 @@ public class UsersManager implements Serializable{
 
 	}
 	
-	protected void InitUsrs() {
-		this.currentUsr.setUsrName("Alice");
+	protected void InitUsrs(Usr u) {
+		this.currentUsr.setUsrName(u.getUsrName());
 		this.currentUsr.setUsrEditingStatus(UsrEditingStatus.NotEntered);
 		this.currentUsr.setUsrStatus(UsrStatus.Available);
-		this.currentUsr.setUsrID(0);
+		this.currentUsr.setUsrID(u.getUsrID());
 		
 	}
 	

@@ -1,13 +1,16 @@
 package comgithubweibominingdataIMClient;
 
+import comgithubweibominingdataIMSever.SeverRMI;
+
 public class Client {
 	private ClientModel model;
 	private ClientControl control;
 	private ClientView view;
-	private EditingStatusChecker editingChecker;
+	private StatusChecker statusChecker;
 	private Thread editingCheckerThread;
+	private ClientModelRMI modelRMI;
 
-	public Client() {
+	public Client(SeverRMI rmi) {
 		// TODO Auto-generated constructor stub
 		try {
 			model = new ClientModel();
@@ -19,12 +22,20 @@ public class Client {
 			view.control = control;
 			model.view = view;
 			control.view = view;
-			editingChecker = new EditingStatusChecker(view);
-			editingCheckerThread = new Thread(editingChecker);
+			statusChecker = new StatusChecker(view);
+			editingCheckerThread = new Thread(statusChecker);
+			model.rmiStub = rmi;
+			modelRMI = new ClientModelRMI(model);
+			model.rmiModel = modelRMI;
+			if (!model.registerUsr()) {
+				System.err.println("User register fails");
+			}
+			else {
+				view.setVisible(true);
+				editingCheckerThread.start();
+				model.updateView();			
+			}
 			
-			view.setVisible(true);
-			editingCheckerThread.start();
-			model.initial();
 		}
 		catch (Exception e){
 			e.printStackTrace();
@@ -38,7 +49,6 @@ public class Client {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try{
-			new Client(); 
 		}
 		catch(Exception e) {
 			e.printStackTrace();

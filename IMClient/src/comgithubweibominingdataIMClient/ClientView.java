@@ -27,6 +27,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class ClientView extends JFrame {
@@ -75,6 +77,12 @@ public class ClientView extends JFrame {
 	 * Create the frame.
 	 */
 	public ClientView() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				control.closingEventHandler();
+			}
+		});
 		setBackground(Color.WHITE);
 		setResizable(false);
 		setTitle("IM Client");
@@ -156,6 +164,16 @@ public class ClientView extends JFrame {
 		panelStatus.add(lblTopic);
 		
 		textTopic = new JTextField();
+		textTopic.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				control.topicModifyingHandler();
+			}
+		});
 		lblTopic.setLabelFor(textTopic);
 		panelStatus.add(textTopic);
 		textTopic.setColumns(10);

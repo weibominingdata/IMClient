@@ -10,7 +10,7 @@ public class Usr implements Serializable{
 	private String usrName;
 	private UsrStatus usrStatus;
 	private UsrEditingStatus usrEditingStatus;
-	private int UsrID;
+	private int UsrID = -1;
 
 	public Usr() {
 		// TODO Auto-generated constructor stub
@@ -52,8 +52,15 @@ public class Usr implements Serializable{
 		return usrEditingStatus;
 	}
 
-	public void setUsrEditingStatus(UsrEditingStatus usrEditingStatus) {
+	public boolean setUsrEditingStatus(UsrEditingStatus usrEditingStatus) {
+		// return value: changed status?
+		if (usrEditingStatus == this.usrEditingStatus) {
+			return false;
+		}
+		else {
 			this.usrEditingStatus = usrEditingStatus;
+			return true;
+		}
 	}
 
 	public int getUsrID() {
